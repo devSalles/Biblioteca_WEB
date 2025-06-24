@@ -1,6 +1,7 @@
 package Biblioteca_WEB.dto;
 
 import Biblioteca_WEB.Enum.StatusLivro;
+import Biblioteca_WEB.model.LivroModel;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.NotBlank;
@@ -34,4 +35,44 @@ public class LivroDTO {
     @NotBlank @NotNull
     private String categoria;
 
+    // ---Metodos abaixo de conversão---
+
+    //Metodo para salvar funcionario
+    public LivroModel toLivro()
+    {
+        LivroModel livroModel=new LivroModel();
+
+        livroModel.setTitulo(this.titulo);
+        livroModel.setAutor(this.autor);
+        livroModel.setIsbn(this.isbn);
+        livroModel.setAnoPublicacao(this.anoPublicacao);
+        livroModel.setCategoria(this.categoria);
+        livroModel.setStatusLivro(this.statusLivro);
+
+        return livroModel;
+    }
+
+    //Metodo para achar livro
+    public void fromLivro(LivroModel livroModel)
+    {
+        this.titulo=livroModel.getTitulo();
+        this.autor=livroModel.getAutor();
+        this.isbn=livroModel.getIsbn();
+        this.anoPublicacao=livroModel.getAnoPublicacao();
+        this.categoria=livroModel.getCategoria();
+        this.statusLivro=livroModel.getStatusLivro();
+    }
+
+    //Metodo para atualizar livro
+    public LivroModel updateLivro(LivroModel livroModel)
+    {
+        livroModel.setTitulo(this.getTitulo());
+        livroModel.setAutor(this.getAutor());
+        livroModel.setIsbn(this.getIsbn());
+        livroModel.setAnoPublicacao(this.getAnoPublicacao());
+        livroModel.setCategoria(this.getCategoria());
+        livroModel.setStatusLivro(this.getStatusLivro());
+
+        return livroModel;
+    }
 }
