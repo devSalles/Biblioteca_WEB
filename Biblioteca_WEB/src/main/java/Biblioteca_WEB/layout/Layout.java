@@ -1,4 +1,4 @@
-package Biblioteca_WEB.controller.layout;
+package Biblioteca_WEB.layout;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,18 +13,18 @@ public class Layout {
     @GetMapping("/index")
     public ModelAndView index()
     {
-        return new ModelAndView("index");
+        return new ModelAndView("layout/index");
     }
 
     @GetMapping("/livro404")
     public ModelAndView livroNotFound()
     {
-        return new ModelAndView("bibliotecario404");
+        return new ModelAndView("layout/livro404");
     }
 
     @GetMapping("/bibliotecario404")
     public ModelAndView bibliotecarioNotFound()
     {
-        return new ModelAndView("bibliotecario404");
+        return new ModelAndView("layout/bibliotecario404");
     }
 }

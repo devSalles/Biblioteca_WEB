@@ -35,4 +35,8 @@ public class LivroModel {
 
     @Column(nullable = false)
     private String categoria;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "bibliotecario_id",nullable = false)
+    private BibliotecarioModel bibliotecarioModel;
 }

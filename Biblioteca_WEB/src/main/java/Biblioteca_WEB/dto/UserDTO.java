@@ -1,7 +1,7 @@
 package Biblioteca_WEB.dto;
 
-import Biblioteca_WEB.model.LivroModel;
 import Biblioteca_WEB.model.UserModel;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -19,22 +19,21 @@ public class UserDTO {
     @NotNull @NotBlank
     private String nome;
 
-    @NotNull @NotBlank
+    @Email @NotBlank
     private String email;
 
     @NotNull @NotBlank
     private String senha;
 
-    @NotNull @NotBlank
-    private String cpf;
-
-
-    //Metodo para achar usuário e realizar login
-    private void fromUser(UserModel userModel)
+    //Metodo salvar usuário no cadastro
+    public UserModel toUser()
     {
-        this.nome= userModel.getNome();
-        this.cpf= userModel.getCpf();
-        this.email= userModel.getEmail();
-        this.senha=userModel.getSenha();
+        UserModel userModel=new UserModel();
+
+        userModel.setNome(this.nome);
+        userModel.setEmail(this.email);
+        userModel.setSenha(this.senha);
+
+        return userModel;
     }
 }

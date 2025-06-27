@@ -35,6 +35,9 @@ public class LivroDTO {
     @NotBlank @NotNull
     private String categoria;
 
+    @NotBlank(message = "id de bibliotecario não pode ser nulo")
+    private Long bibliotecario_id;
+
     // ---Metodos abaixo de conversão---
 
     //Metodo para salvar funcionario
@@ -61,6 +64,14 @@ public class LivroDTO {
         this.anoPublicacao=livroModel.getAnoPublicacao();
         this.categoria=livroModel.getCategoria();
         this.statusLivro=livroModel.getStatusLivro();
+        if(livroModel.getBibliotecarioModel()!=null)
+        {
+            this.bibliotecario_id=livroModel.getBibliotecarioModel().getId();
+        }
+        else
+        {
+            bibliotecario_id=null;
+        }
     }
 
     //Metodo para atualizar livro

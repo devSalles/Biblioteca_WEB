@@ -7,6 +7,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "tb__bibliotecario")
 @Getter
@@ -32,5 +35,8 @@ public class BibliotecarioModel {
 
     @Column(nullable = false)
     private StatusFuncionario statusFuncionario;
+
+    @OneToMany(fetch = FetchType.LAZY)
+    private List<LivroModel> livro=new ArrayList<>();
 
 }

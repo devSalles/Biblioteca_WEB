@@ -23,9 +23,6 @@ public class UserModel {
     @Column(nullable = false)
     private String email;
 
-    @Column(nullable = false)
+    @Column(nullable = false,unique = true)
     private String senha;
-
-    @Column(nullable = false)
-    private String cpf;
 }
