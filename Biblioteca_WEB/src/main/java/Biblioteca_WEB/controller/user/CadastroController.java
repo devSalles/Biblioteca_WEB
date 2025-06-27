@@ -36,17 +36,16 @@ public class CadastroController {
         ModelAndView mv = new ModelAndView("cadastrar/cadastro");
         if(bindingResult.hasErrors())
         {
-            ModelAndView modelError=new ModelAndView("cadastrar/cadastro");
-            modelError.addObject("userDTO",userDTO);
-            return modelError;
+            mv.addObject("userDTO",userDTO);
+            return mv;
         }
 
-        if(userRepository.existsByEmail(userDTO.getEmail())!=null)
+        if(userRepository.findByEmail(userDTO.getEmail())!=null)
         {
             mv.addObject("erro","email já está em uso");
             return mv;
         }
-        if(userRepository.existsBySenha(userDTO.getSenha())!=null)
+        if(userRepository.findBySenha(userDTO.getSenha())!=null)
         {
             mv.addObject("erro","escolha outra senha");
             return mv;

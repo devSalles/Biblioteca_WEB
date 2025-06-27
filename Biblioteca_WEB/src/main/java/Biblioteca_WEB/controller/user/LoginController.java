@@ -1,6 +1,7 @@
 package Biblioteca_WEB.controller.user;
 
 import Biblioteca_WEB.dto.UserDTO;
+import Biblioteca_WEB.model.UserModel;
 import Biblioteca_WEB.repository.UserRepository;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
@@ -17,19 +18,24 @@ public class LoginController {
     }
 
     @GetMapping("/login")
-    public ModelAndView loginTemplate(@Valid @ModelAttribute("userDTO")UserDTO userDTO)
+    public ModelAndView loginTemplate()
     {
-        return new ModelAndView("Login/login");
+        return new ModelAndView("Logar/login");
     }
 
     @PostMapping("/login")
     public ModelAndView loginCampos(@RequestParam String email, @RequestParam String senha)
     {
-        return userRepository.findByEmailAndSenha(email, senha)
-                .map(userModel -> new ModelAndView("redirect:/layout/index"))
-                .orElseGet(() -> { ModelAndView mv = new ModelAndView("Login/login");
-                mv.addObject("erro","email ou senha inválido");
-                return mv;
-                });
+        UserModel userModel=this.userRepository.findByEmail(email);
+        if(userModel!=null &&  userModel.getEmail().equals(email) && userModel.getSenha().equals(senha))
+        {
+            return new ModelAndView("redirect:/home/index");
+        }
+        else
+        {
+            ModelAndView mv = new ModelAndView("Logar/login");
+            mv.addObject("erro","email ou senha inválidos");
+            return mv;
+        }
     }
 }
