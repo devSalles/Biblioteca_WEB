@@ -1,6 +1,6 @@
 package Biblioteca_WEB.Enum;
 
-public enum StatusFuncionario {
+public enum StatusBibliotecario {
     ATIVO,
     AFASTADO,
     DEMITIDO

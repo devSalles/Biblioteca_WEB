@@ -10,12 +10,6 @@ import org.springframework.web.servlet.ModelAndView;
 public class Layout {
 
 
-    @GetMapping("/index")
-    public ModelAndView index()
-    {
-        return new ModelAndView("layout/index");
-    }
-
     @GetMapping("/livro404")
     public ModelAndView livroNotFound()
     {

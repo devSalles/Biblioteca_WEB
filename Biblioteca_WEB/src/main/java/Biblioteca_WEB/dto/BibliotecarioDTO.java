@@ -1,6 +1,6 @@
 package Biblioteca_WEB.dto;
 
-import Biblioteca_WEB.Enum.StatusFuncionario;
+import Biblioteca_WEB.Enum.StatusBibliotecario;
 import Biblioteca_WEB.model.BibliotecarioModel;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -31,8 +31,8 @@ public class BibliotecarioDTO {
     @DecimalMin("0.0")
     private Double salario;
 
-    @Enumerated(EnumType.STRING)
-    private StatusFuncionario statusFuncionario;
+    @Enumerated(EnumType.STRING) @NotNull
+    private StatusBibliotecario statusBibliotecario;
 
     // ---Metodos abaixo de conversão---
 
@@ -45,7 +45,7 @@ public class BibliotecarioDTO {
         bibliotecarioModel.setEmail(this.email);
         bibliotecarioModel.setCargo(this.cargo);
         bibliotecarioModel.setSalario(this.salario);
-        bibliotecarioModel.setStatusFuncionario(this.statusFuncionario);
+        bibliotecarioModel.setStatusBibliotecario(this.statusBibliotecario);
 
         return bibliotecarioModel;
     }
@@ -57,7 +57,7 @@ public class BibliotecarioDTO {
         this.email=bibliotecarioModel.getEmail();
         this.cargo=bibliotecarioModel.getCargo();
         this.salario=bibliotecarioModel.getSalario();
-        this.statusFuncionario=bibliotecarioModel.getStatusFuncionario();
+        this.statusBibliotecario =bibliotecarioModel.getStatusBibliotecario();
     }
 
     //metodo para atualizar funcionario
@@ -67,7 +67,7 @@ public class BibliotecarioDTO {
         bibliotecarioModel.setEmail(this.getEmail());
         bibliotecarioModel.setCargo(this.getCargo());
         bibliotecarioModel.setSalario(this.getSalario());
-        bibliotecarioModel.setStatusFuncionario(this.getStatusFuncionario());
+        bibliotecarioModel.setStatusBibliotecario(this.getStatusBibliotecario());
 
         return bibliotecarioModel;
     }

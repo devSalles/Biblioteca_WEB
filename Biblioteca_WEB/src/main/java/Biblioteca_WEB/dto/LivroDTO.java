@@ -10,6 +10,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -29,13 +32,13 @@ public class LivroDTO {
     @Enumerated(EnumType.STRING)
     private StatusLivro statusLivro;
 
-    @NotBlank @NotNull
-    private Integer anoPublicacao;
+    @NotNull @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate anoPublicacao;
 
     @NotBlank @NotNull
     private String categoria;
 
-    @NotBlank(message = "id de bibliotecario não pode ser nulo")
+    @NotNull(message = "id de bibliotecario não pode ser nulo")
     private Long bibliotecario_id;
 
     // ---Metodos abaixo de conversão---

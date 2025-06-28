@@ -1,8 +1,7 @@
 package Biblioteca_WEB.controller.bibliotecario;
 
-import Biblioteca_WEB.Enum.StatusFuncionario;
+import Biblioteca_WEB.Enum.StatusBibliotecario;
 import Biblioteca_WEB.dto.BibliotecarioDTO;
-import Biblioteca_WEB.dto.UserDTO;
 import Biblioteca_WEB.model.BibliotecarioModel;
 import Biblioteca_WEB.repository.BibliotecarioRepository;
 import jakarta.validation.Valid;
@@ -23,15 +22,15 @@ public class AddNewBibliotecario {
     }
 
     @GetMapping("/adicionar")
-    public ModelAndView templateNewLivro()
+    public ModelAndView templateCampos()
     {
         ModelAndView mv = new ModelAndView("bibliotecario/new");
-        mv.addObject("UserDTO",new UserDTO());
-        mv.addObject("statusBibliotecario", StatusFuncionario.values());
+        mv.addObject("bibliotecarioDTO",new BibliotecarioDTO());
+        mv.addObject("statusBibliotecario", StatusBibliotecario.values());
         return mv;
     }
     @PostMapping("/adicionar")
-    public ModelAndView templateCampos(@Valid BibliotecarioDTO bibliotecarioDTO, BindingResult bindingResult)
+    public ModelAndView templateBibliotecario(@Valid BibliotecarioDTO bibliotecarioDTO, BindingResult bindingResult)
     {
         if(bindingResult.hasErrors())
         {
@@ -39,7 +38,6 @@ public class AddNewBibliotecario {
         }
         BibliotecarioModel bibliotecarioModel=bibliotecarioDTO.toBibliotecario();
         this.bibliotecarioRepository.save(bibliotecarioModel);
-        return new ModelAndView("bibliotecario/home");
+        return new ModelAndView("redirect:/home/index");
     }
-
 }

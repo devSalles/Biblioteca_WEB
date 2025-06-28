@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Cadastrar Livro</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light p-4">
+
+<div class="container">
+    <h2 class="mb-4 text-center">Cadastrar Novo Livro</h2>
+
+    <form th:action="@{/livro/adicionar}" th:object="${livroDTO}" method="post" class="border p-4 bg-white rounded shadow-sm">
+
+        <div class="mb-3">
+            <label for="titulo" class="form-label">Título:</label>
+            <input type="text" class="form-control" id="titulo" th:field="*{titulo}" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="autor" class="form-label">Autor:</label>
+            <input type="text" class="form-control" id="autor" th:field="*{autor}" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="isbn" class="form-label">ISBN:</label>
+            <input type="text" class="form-control" id="isbn" th:field="*{isbn}" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="anoPublicacao" class="form-label">Data de Publicação:</label>
+            <input type="date" class="form-control" id="anoPublicacao"
+                   th:field="*{anoPublicacao}"
+                   th:attr="max=${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="categoria" class="form-label">Categoria:</label>
+            <input type="text" class="form-control" id="categoria" th:field="*{categoria}" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="statusLivro" class="form-label">Status do Livro:</label>
+            <select class="form-select" id="statusLivro" th:field="*{statusLivro}" required>
+                <option value="" disabled selected>Selecione o status</option>
+                <option th:each="status : ${statusLivro}" th:value="${status}" th:text="${status}">DISPONIVEL</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="bibliotecario_id" class="form-label">Bibliotecário Responsável:</label>
+            <select class="form-select" id="bibliotecario_id" th:field="*{bibliotecario_id}" required>
+                <option value="" disabled selected>Selecione um bibliotecário</option>
+                <option th:each="b : ${biblios_id}" th:value="${b.id}" th:text="${b.nome}">Nome do Bibliotecário</option>
+            </select>
+        </div>
+
+        <div class="d-flex justify-content-between">
+            <a href="/home/index" class="btn btn-secondary">Voltar</a>
+            <button type="submit" class="btn btn-primary">Cadastrar Livro</button>
+        </div>
+    </form>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

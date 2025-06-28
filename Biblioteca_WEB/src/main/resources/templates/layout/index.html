@@ -1,51 +1,103 @@
 <!DOCTYPE html>
 <html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>Abas - Bibliotecário e Livro</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <title>Bibliotecário e Livro</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body class="bg-light p-4">
 
 <div class="container">
-  <h2 class="mb-4 text-center">Gerenciamento</h2>
+    <h2 class="mb-4 text-center">Sistema de Biblioteca</h2>
 
-  <!-- Nav Tabs -->
-  <ul class="nav nav-tabs" id="tabMenu" role="tablist">
-    <li class="nav-item" role="presentation">
-      <button class="nav-link active" id="bibliotecario-tab" data-bs-toggle="tab" data-bs-target="#bibliotecario" type="button" role="tab" aria-controls="bibliotecario" aria-selected="true">
-        Bibliotecário
-      </button>
-    </li>
-    <li class="nav-item" role="presentation">
-      <button class="nav-link" id="livro-tab" data-bs-toggle="tab" data-bs-target="#livro" type="button" role="tab" aria-controls="livro" aria-selected="false">
-        Livro
-      </button>
-    </li>
-  </ul>
-
-  <!-- Tab Content -->
-  <div class="tab-content border border-top-0 p-4 bg-white" id="tabContent">
-    <!-- Aba Bibliotecário -->
-    <div class="tab-pane fade show active" id="bibliotecario" role="tabpanel" aria-labelledby="bibliotecario-tab">
-      <h4>Informações de Bibliotecários</h4>
-      <p>Aqui você pode cadastrar, editar ou visualizar os bibliotecários.</p>
-      <!-- Exemplo de conteúdo dinâmico -->
-      <ul>
-        <li th:each="b : ${bibliotecarios}" th:text="${b.nome}">Nome do Bibliotecário</li>
-      </ul>
+    <!-- Botões de Cadastro -->
+    <div class="d-flex justify-content-end mb-3 gap-2">
+        <a href="/bibliotecario/adicionar" class="btn btn-success">Cadastrar Bibliotecário</a>
+        <a href="/livro/adicionar" class="btn btn-primary">Cadastrar Livro</a>
     </div>
 
-    <!-- Aba Livro -->
-    <div class="tab-pane fade" id="livro" role="tabpanel" aria-labelledby="livro-tab">
-      <h4>Informações de Livros</h4>
-      <p>Aqui você pode cadastrar, editar ou visualizar os livros.</p>
-      <!-- Exemplo de conteúdo dinâmico -->
-      <ul>
-        <li th:each="l : ${livros}" th:text="${l.titulo}">Título do Livro</li>
-      </ul>
+    <!-- Abas -->
+    <ul class="nav nav-tabs" id="tabMenu" role="tablist">
+        <li class="nav-item">
+            <button class="nav-link active" id="bibliotecario-tab" data-bs-toggle="tab" data-bs-target="#bibliotecario" type="button" role="tab">
+                Bibliotecários
+            </button>
+        </li>
+        <li class="nav-item">
+            <button class="nav-link" id="livro-tab" data-bs-toggle="tab" data-bs-target="#livro" type="button" role="tab">
+                Livros
+            </button>
+        </li>
+    </ul>
+
+    <!-- Conteúdo das Abas -->
+    <div class="tab-content border border-top-0 p-4 bg-white" id="tabContent">
+
+        <!-- Lista de Bibliotecários -->
+        <div class="tab-pane fade show active" id="bibliotecario" role="tabpanel">
+            <h4>Bibliotecários</h4>
+            <table class="table table-bordered table-striped">
+                <thead class="table-secondary">
+                <tr>
+                    <th>Nome</th>
+                    <th>Email</th>
+                    <th>Cargo</th>
+                    <th>Salário</th>
+                    <th>Status</th>
+                    <th>Ações</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="b : ${bibliotecarioList}">
+                    <td th:text="${b.nome}">Nome</td>
+                    <td th:text="${b.email}">Email</td>
+                    <td th:text="${b.cargo}">Cargo</td>
+                    <td th:text="${b.salario}">Salário</td>
+                    <td th:text="${b.statusBibliotecario}">Status</td>
+                    <td>
+                        <a th:href="@{/bibliotecario/{id}(id=${b.id})}" class="btn btn-sm btn-info">Ver</a>
+                        <a th:href="@{/bibliotecario/editar/{id}(id=${b.id})}" class="btn btn-sm btn-warning">Editar</a>
+                        <a th:href="@{/bibliotecario/excluir/{id}(id=${b.id})}" class="btn btn-sm btn-danger" onclick="return confirm('Tem certeza que deseja excluir?')">Excluir</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Lista de Livros -->
+        <div class="tab-pane fade" id="livro" role="tabpanel">
+            <h4>Livros</h4>
+            <table class="table table-bordered table-striped">
+                <thead class="table-secondary">
+                <tr>
+                    <th>Título</th>
+                    <th>Autor</th>
+                    <th>ISBN</th>
+                    <th>Status</th>
+                    <th>Categoria</th>
+                    <th>Ano</th>
+                    <th>Ações</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="l : ${livros}">
+                    <td th:text="${l.titulo}">Título</td>
+                    <td th:text="${l.autor}">Autor</td>
+                    <td th:text="${l.isbn}">ISBN</td>
+                    <td th:text="${l.statusLivro}">Status</td>
+                    <td th:text="${l.categoria}">Categoria</td>
+                    <td th:text="${l.anoPublicacao}">Ano</td>
+                    <td>
+                        <a th:href="@{/livro/{id}(id=${l.id})}" class="btn btn-sm btn-info">Ver</a>
+                        <a th:href="@{/livro/editar/{id}(id=${l.id})}" class="btn btn-sm btn-warning">Editar</a>
+                        <a th:href="@{/livro/excluir/{id}(id=${l.id})}" class="btn btn-sm btn-danger" onclick="return confirm('Tem certeza que deseja excluir?')">Excluir</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
     </div>
-  </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

@@ -1,6 +1,6 @@
 package Biblioteca_WEB.model;
 
-import Biblioteca_WEB.Enum.StatusFuncionario;
+import Biblioteca_WEB.Enum.StatusBibliotecario;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -33,8 +33,8 @@ public class BibliotecarioModel {
     @Column(nullable = false)
     private Double salario;
 
-    @Column(nullable = false)
-    private StatusFuncionario statusFuncionario;
+    @Column(nullable = false) @Enumerated(EnumType.STRING)
+    private StatusBibliotecario statusBibliotecario;
 
     @OneToMany(fetch = FetchType.LAZY)
     private List<LivroModel> livro=new ArrayList<>();

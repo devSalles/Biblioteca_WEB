@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
+
 @Entity
 @Table(name = "tb__livro")
 @Getter
@@ -27,11 +29,11 @@ public class LivroModel {
     @Column(nullable = false)
     private String isbn;
 
-    @Column(nullable = false)
+    @Column(nullable = false) @Enumerated(EnumType.STRING)
     private StatusLivro statusLivro;
 
     @Column(nullable = false)
-    private Integer anoPublicacao;
+    private LocalDate anoPublicacao;
 
     @Column(nullable = false)
     private String categoria;
