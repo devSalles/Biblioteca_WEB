@@ -13,12 +13,12 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping("/home")
-public class GetAll_Index {
+public class GetAllController {
 
     private BibliotecarioRepository bibliotecarioRepository;
     private LivroRepository livroRepository;
 
-    public GetAll_Index(BibliotecarioRepository bibliotecarioRepository, LivroRepository livroRepository) {
+    public GetAllController(BibliotecarioRepository bibliotecarioRepository, LivroRepository livroRepository) {
         this.bibliotecarioRepository = bibliotecarioRepository;
         this.livroRepository=livroRepository;
     }

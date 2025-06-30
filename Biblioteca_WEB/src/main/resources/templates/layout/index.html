@@ -55,9 +55,29 @@
                     <td th:text="${b.salario}">Salário</td>
                     <td th:text="${b.statusBibliotecario}">Status</td>
                     <td>
-                        <a th:href="@{/bibliotecario/{id}(id=${b.id})}" class="btn btn-sm btn-info">Ver</a>
+                        <a th:href="@{/bibliotecario/detalhe/{id}(id=${b.id})}" class="btn btn-sm btn-info">Ver</a>
                         <a th:href="@{/bibliotecario/editar/{id}(id=${b.id})}" class="btn btn-sm btn-warning">Editar</a>
-                        <a th:href="@{/bibliotecario/excluir/{id}(id=${b.id})}" class="btn btn-sm btn-danger" onclick="return confirm('Tem certeza que deseja excluir?')">Excluir</a>
+                        <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" th:data-bs-target="'#confirmDeleteBiblio' + ${b.id}">Excluir</button>
+
+                        <!-- Modal Bibliotecário -->
+                        <div class="modal fade" th:id="'confirmDeleteBiblio' + ${b.id}" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header bg-danger text-white">
+                                        <h5 class="modal-title" id="deleteModalLabel">Confirmar Exclusão</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        Tem certeza que deseja excluir o bibliotecário <strong th:text="${b.nome}">Nome</strong>?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                        <a th:href="@{/bibliotecario/delete/{id}(id=${b.id})}" class="btn btn-danger">Confirmar</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                     </td>
                 </tr>
                 </tbody>
@@ -90,7 +110,27 @@
                     <td>
                         <a th:href="@{/livro/{id}(id=${l.id})}" class="btn btn-sm btn-info">Ver</a>
                         <a th:href="@{/livro/editar/{id}(id=${l.id})}" class="btn btn-sm btn-warning">Editar</a>
-                        <a th:href="@{/livro/excluir/{id}(id=${l.id})}" class="btn btn-sm btn-danger" onclick="return confirm('Tem certeza que deseja excluir?')">Excluir</a>
+                        <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" th:data-bs-target="'#confirmDeleteLivro' + ${l.id}">Excluir</button>
+
+                        <!-- Modal Livro -->
+                        <div class="modal fade" th:id="'confirmDeleteLivro' + ${l.id}" tabindex="-1" aria-labelledby="deleteLivroModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header bg-danger text-white">
+                                        <h5 class="modal-title" id="deleteLivroModalLabel">Confirmar Exclusão</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        Tem certeza que deseja excluir o livro <strong th:text="${l.titulo}">Título</strong>?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                        <a th:href="@{/livro/excluir/{id}(id=${l.id})}" class="btn btn-danger">Confirmar</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                     </td>
                 </tr>
                 </tbody>
