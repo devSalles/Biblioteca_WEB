@@ -16,11 +16,11 @@ import java.util.Optional;
 
 @Controller
 @RequestMapping("/bibliotecario")
-public class UpdateBibliotecario {
+public class UpdateByIdBibliotecario {
 
     private BibliotecarioRepository bibliotecarioRepository;
 
-    public UpdateBibliotecario(BibliotecarioRepository bibliotecarioRepository) {
+    public UpdateByIdBibliotecario(BibliotecarioRepository bibliotecarioRepository) {
         this.bibliotecarioRepository = bibliotecarioRepository;
     }
 
