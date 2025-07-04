@@ -1,10 +1,38 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="UTF-8">
+    <title>Detalhes do Livro</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
-$END$
+<body class="bg-light">
+
+<div class="container py-5">
+    <h2 class="text-center mb-4">📖 Detalhes do Livro</h2>
+
+    <div class="card shadow-lg rounded-4">
+        <div class="card-body">
+            <h4 class="card-title" th:text="${idLivro.titulo}">Título do Livro</h4>
+            <p class="card-text"><strong>Autor:</strong> <span th:text="${idLivro.autor}">Nome do Autor</span></p>
+            <p class="card-text"><strong>ISBN:</strong> <span th:text="${idLivro.isbn}">0000000000</span></p>
+            <p class="card-text"><strong>Status:</strong> <span th:text="${idLivro.statusLivro}">DISPONÍVEL</span></p>
+            <p class="card-text"><strong>Ano de Publicação:</strong>
+                <span th:text="${#temporals.format(idLivro.anoPublicacao, 'dd/MM/yyyy')}">01/01/2024</span>
+            </p>
+            <p class="card-text"><strong>Categoria:</strong> <span th:text="${idLivro.categoria}">Ficção</span></p>
+
+            <hr>
+
+            <h5>👨‍💼 Bibliotecário Responsável</h5>
+            <p class="mb-0"><strong>Nome:</strong> <span th:text="${BiblioResp.nome}">Nome do Bibliotecário</span></p>
+            <p><strong>Email:</strong> <span th:text="${BiblioResp.email}">email@exemplo.com</span></p>
+        </div>
+    </div>
+
+    <div class="text-center mt-4">
+        <a href="/home/index" class="btn btn-secondary">Voltar</a>
+    </div>
+</div>
+
 </body>
 </html>
