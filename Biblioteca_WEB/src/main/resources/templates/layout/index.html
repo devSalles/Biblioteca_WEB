@@ -108,7 +108,7 @@
                     <td th:text="${l.categoria}">Categoria</td>
                     <td th:text="${l.anoPublicacao}">Ano</td>
                     <td>
-                        <a th:href="@{/livro/{id}(id=${l.id})}" class="btn btn-sm btn-info">Ver</a>
+                        <a th:href="@{/livro/detalhe/{id}(id=${l.id})}" class="btn btn-sm btn-info">Ver</a>
                         <a th:href="@{/livro/editar/{id}(id=${l.id})}" class="btn btn-sm btn-warning">Editar</a>
                         <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" th:data-bs-target="'#confirmDeleteLivro' + ${l.id}">Excluir</button>
 
