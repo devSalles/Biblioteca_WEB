@@ -32,6 +32,7 @@ public class UpdateByIdLivro {
     @GetMapping("/editar/{id}")
     public ModelAndView editarCampos(@PathVariable Long id, LivroDTO livroDTO)
     {
+        //Procura de existência de ID
         Optional<LivroModel>livroID=this.livroRepository.findById(id);
         if (livroID.isEmpty())
         {
@@ -43,6 +44,7 @@ public class UpdateByIdLivro {
             livroDTO.fromLivro(livroRecId);
 
             ModelAndView mv = new ModelAndView("/livro/edit");
+            //Adiciona os valores para preenchimento
             mv.addObject("livroID",id);
             mv.addObject("livroDTO",livroDTO);
             mv.addObject("StatusLivro", StatusLivro.values());
@@ -55,6 +57,7 @@ public class UpdateByIdLivro {
     @PostMapping("/editar/{id}")
     public ModelAndView editarInfo(@PathVariable Long id, @Valid LivroDTO livroDTO, BindingResult bindingResult)
     {
+        //bindingResult para garantir a validação dos dados
         if(bindingResult.hasErrors())
         {
             ModelAndView mv = new ModelAndView("/livro/edit");
@@ -66,6 +69,7 @@ public class UpdateByIdLivro {
         }
         else
         {
+            //Procura de existência de ID
             Optional<LivroModel>livroModelID=this.livroRepository.findById(id);
             if(livroModelID.isEmpty())
             {
@@ -74,13 +78,18 @@ public class UpdateByIdLivro {
             else
             {
                 LivroModel livroRecID=livroModelID.get();
+
+                //Converte os dados para DTO
                 LivroModel livroAtualizado=livroDTO.updateLivro(livroRecID);
 
+                //Procura de existência de ID de bibliotecário
                 Optional<BibliotecarioModel>bibliotecarioID=this.bibliotecarioRepository.findById(livroDTO.getBibliotecario_id());
                 if(bibliotecarioID.isEmpty())
                 {
                     return new ModelAndView("redirect:/home/bibliotecario404");
                 }
+
+                //Seta o ID do bibliotecário
                 livroAtualizado.setBibliotecarioModel(bibliotecarioID.get());
                 this.livroRepository.save(livroAtualizado);
                 return new ModelAndView("redirect:/home/index");

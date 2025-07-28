@@ -23,6 +23,7 @@ public class DeleteByIdLivro {
     @GetMapping("/excluir/{id}")
     public ModelAndView deletar(@PathVariable Long id)
     {
+        //Procura de existência de ID
         Optional<LivroModel>livroID=this.livroRepository.findById(id);
         if(livroID.isEmpty())
         {

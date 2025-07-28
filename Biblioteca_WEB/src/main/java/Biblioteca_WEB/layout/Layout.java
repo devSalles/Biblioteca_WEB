@@ -9,6 +9,7 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/home")
 public class Layout {
 
+    //Classe responsável por templates de layout do site
 
     @GetMapping("/livro404")
     public ModelAndView livroNotFound()

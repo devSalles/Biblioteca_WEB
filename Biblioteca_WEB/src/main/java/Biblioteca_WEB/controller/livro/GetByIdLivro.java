@@ -23,6 +23,7 @@ public class GetByIdLivro {
     @GetMapping("/detalhe/{id}")
     public ModelAndView showDetalhes(@PathVariable Long id)
     {
+        //Procura de existência de ID
         Optional<LivroModel>livroID=this.livroRepository.findById(id);
         if(livroID.isEmpty())
         {

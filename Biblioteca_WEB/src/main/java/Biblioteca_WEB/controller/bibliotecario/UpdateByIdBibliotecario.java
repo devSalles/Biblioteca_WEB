@@ -27,6 +27,7 @@ public class UpdateByIdBibliotecario {
     @GetMapping("/editar/{id}")
     public ModelAndView editarCampos(@PathVariable Long id,BibliotecarioDTO bibliotecarioDTO)
     {
+        //Procura de existência de ID
         Optional<BibliotecarioModel>bibliotecarioOpt=this.bibliotecarioRepository.findById(id);
         if(bibliotecarioOpt.isEmpty())
         {
@@ -35,6 +36,7 @@ public class UpdateByIdBibliotecario {
         else
         {
             BibliotecarioModel bibliotecarioModel=bibliotecarioOpt.get();
+            //Converte os dados da entidade para DTO
             bibliotecarioDTO.fromBibliotecario(bibliotecarioModel);
 
             ModelAndView mv = new ModelAndView("bibliotecario/edit");
@@ -49,6 +51,7 @@ public class UpdateByIdBibliotecario {
     @PostMapping("/editar/{id}")
     public ModelAndView editarTemplates(@PathVariable Long id,@Valid BibliotecarioDTO bibliotecarioDTO, BindingResult bindingResult)
     {
+        //bindingResult para garantir a validação dos dados
         if(bindingResult.hasErrors())
         {
             ModelAndView mv = new ModelAndView("bibliotecario/edit");
@@ -59,6 +62,7 @@ public class UpdateByIdBibliotecario {
         }
         else
         {
+            //Procura de existência de ID
             Optional<BibliotecarioModel>bibliotecarioOpt = this.bibliotecarioRepository.findById(id);
             if(bibliotecarioOpt.isEmpty())
             {
@@ -67,6 +71,7 @@ public class UpdateByIdBibliotecario {
             else
             {
                 BibliotecarioModel bibliotecarioSave=bibliotecarioOpt.get();
+                //Converte os dados para a DTO
                 bibliotecarioDTO.updateBibliotecario(bibliotecarioSave);
                 this.bibliotecarioRepository.save(bibliotecarioSave);
 

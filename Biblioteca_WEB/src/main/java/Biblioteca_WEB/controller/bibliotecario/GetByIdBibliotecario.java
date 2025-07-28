@@ -24,6 +24,7 @@ public class GetByIdBibliotecario {
     @GetMapping("/detalhe/{id}")
     public ModelAndView detalhesBiblio(@PathVariable Long id, BibliotecarioDTO bibliotecarioDTO)
     {
+        //Procura de existência de ID
         Optional<BibliotecarioModel>bibliotecarioOpt = this.bibliotecarioRepository.findById(id);
         if(bibliotecarioOpt.isEmpty())
         {

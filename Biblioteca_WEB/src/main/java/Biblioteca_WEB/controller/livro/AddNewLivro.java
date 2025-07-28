@@ -31,6 +31,7 @@ public class AddNewLivro {
     public ModelAndView templateCampos()
     {
         ModelAndView mv = new ModelAndView("livro/new");
+        //Adiciona os valores para preenchimento
         mv.addObject("livroDTO",new LivroDTO());
         mv.addObject("statusLivro", StatusLivro.values());
         mv.addObject("biblios_id",this.bibliotecarioRepository.findAll());
@@ -39,12 +40,15 @@ public class AddNewLivro {
     @PostMapping("/adicionar")
     public ModelAndView templateLivro(@Valid LivroDTO livroDTO, BindingResult bindingResult)
     {
+        //bindingResult para garantir a validação dos dados
         if(bindingResult.hasErrors())
         {
             return new ModelAndView("redirect:/livro/adicionar");
         }
 
         LivroModel livroSave=livroDTO.toLivro();
+
+        //Procura de ID de bibliotecário para salvar e vincular ao livro
         Optional<BibliotecarioModel>bibliotecarioID=this.bibliotecarioRepository.findById(livroDTO.getBibliotecario_id());
 
         if(bibliotecarioID.isEmpty())
@@ -52,6 +56,7 @@ public class AddNewLivro {
             return new ModelAndView("redirect:/home/bibliotecario404");
         }
 
+        //salva livro com o ID do bibliotecário vinculado
         livroSave.setBibliotecarioModel(bibliotecarioID.get());
         this.livroRepository.save(livroSave);
 

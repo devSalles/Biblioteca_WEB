@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface BibliotecarioRepository extends JpaRepository<BibliotecarioModel,Long> {
+
+    boolean existsByEmail(String email);
 }

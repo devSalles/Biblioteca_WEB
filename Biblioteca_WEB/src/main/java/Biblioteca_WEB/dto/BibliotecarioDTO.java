@@ -36,7 +36,7 @@ public class BibliotecarioDTO {
 
     // ---Metodos abaixo de conversão---
 
-    //metodo para salvar bibliotecario
+    //metodo para converter dados para o Model
     public BibliotecarioModel toBibliotecario()
     {
         BibliotecarioModel bibliotecarioModel=new BibliotecarioModel();

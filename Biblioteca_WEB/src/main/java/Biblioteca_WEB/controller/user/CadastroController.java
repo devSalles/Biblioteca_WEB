@@ -34,12 +34,13 @@ public class CadastroController {
     public ModelAndView cadastroCampos(@Valid @ModelAttribute("userDTO")UserDTO userDTO, BindingResult bindingResult)
     {
         ModelAndView mv = new ModelAndView("cadastrar/cadastro");
+        //bindingResult para garantir a validação dos dados
         if(bindingResult.hasErrors())
         {
             mv.addObject("userDTO",userDTO);
             return mv;
         }
-
+        //Verificação de existência de usuário
         if(userRepository.findByEmail(userDTO.getEmail())!=null)
         {
             mv.addObject("erro","email já está em uso");
@@ -50,7 +51,7 @@ public class CadastroController {
             mv.addObject("erro","escolha outra senha");
             return mv;
         }
-
+        //toUser -> Conversão de dados para o Model
         UserModel userModel=userDTO.toUser();
         this.userRepository.save(userModel);
 

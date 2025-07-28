@@ -23,9 +23,15 @@
 
             <hr>
 
-            <h5>👨‍💼 Bibliotecário Responsável</h5>
-            <p class="mb-0"><strong>Nome:</strong> <span th:text="${BiblioResp.nome}">Nome do Bibliotecário</span></p>
-            <p><strong>Email:</strong> <span th:text="${BiblioResp.email}">email@exemplo.com</span></p>
+            <div th:if="${BiblioResp != null}">
+                <h5>👨‍💼 Bibliotecário Responsável</h5>
+                <p class="mb-0"><strong>Nome:</strong> <span th:text="${BiblioResp.nome}">Nome do Bibliotecário</span></p>
+                <p><strong>Email:</strong> <span th:text="${BiblioResp.email}">email@exemplo.com</span></p>
+            </div>
+            <div th:unless="${BiblioResp != null}">
+                <h5>👨‍💼 Bibliotecário Responsável</h5>
+                <p class="text-muted fst-italic">Nenhum bibliotecário associado</p>
+            </div>
         </div>
     </div>
 

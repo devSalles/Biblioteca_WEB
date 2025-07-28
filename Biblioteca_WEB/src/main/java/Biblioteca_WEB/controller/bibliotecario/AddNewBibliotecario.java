@@ -2,9 +2,11 @@ package Biblioteca_WEB.controller.bibliotecario;
 
 import Biblioteca_WEB.Enum.StatusBibliotecario;
 import Biblioteca_WEB.dto.BibliotecarioDTO;
+import Biblioteca_WEB.exception.EmailJaCdastradoException;
 import Biblioteca_WEB.model.BibliotecarioModel;
 import Biblioteca_WEB.repository.BibliotecarioRepository;
 import jakarta.validation.Valid;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,7 +18,8 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/bibliotecario")
 public class AddNewBibliotecario {
 
-    private BibliotecarioRepository bibliotecarioRepository;
+    private final BibliotecarioRepository bibliotecarioRepository;
+
     public AddNewBibliotecario(BibliotecarioRepository bibliotecarioRepository) {
         this.bibliotecarioRepository = bibliotecarioRepository;
     }
@@ -25,19 +28,41 @@ public class AddNewBibliotecario {
     public ModelAndView templateCampos()
     {
         ModelAndView mv = new ModelAndView("bibliotecario/new");
-        mv.addObject("bibliotecarioDTO",new BibliotecarioDTO());
+        mv.addObject("bibliotecarioDTO", new BibliotecarioDTO());
         mv.addObject("statusBibliotecario", StatusBibliotecario.values());
         return mv;
     }
+
     @PostMapping("/adicionar")
     public ModelAndView templateBibliotecario(@Valid BibliotecarioDTO bibliotecarioDTO, BindingResult bindingResult)
     {
-        if(bindingResult.hasErrors())
+
+        //Verifica erros de validação
+        if (bindingResult.hasErrors())
         {
-            return new ModelAndView("redirect:/bibliotecario/adicionar");
+            ModelAndView mv = new ModelAndView("bibliotecario/new");
+            mv.addObject("statusBibliotecario", StatusBibliotecario.values());
+            return mv;
         }
-        BibliotecarioModel bibliotecarioModel=bibliotecarioDTO.toBibliotecario();
-        this.bibliotecarioRepository.save(bibliotecarioModel);
-        return new ModelAndView("redirect:/home/index");
+
+        try
+        {
+            //Verifica se o email já existe
+            if (bibliotecarioRepository.existsByEmail(bibliotecarioDTO.getEmail()))
+            {
+                throw new EmailJaCdastradoException("Email já cadastrado: " + bibliotecarioDTO.getEmail());
+            }
+
+            // Persiste no banco
+            BibliotecarioModel bibliotecarioModel = bibliotecarioDTO.toBibliotecario();
+            bibliotecarioRepository.save(bibliotecarioModel);
+            return new ModelAndView("redirect:/home/index");
+
+        }
+        catch (DataIntegrityViolationException ex)
+        {
+            //Captura violações de constraint do banco
+            throw new EmailJaCdastradoException("Email já cadastrado no sistema");
+        }
     }
 }

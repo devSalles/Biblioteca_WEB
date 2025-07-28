@@ -27,7 +27,7 @@ public class UserDTO {
     @NotNull(message = "senha obrigatória") @Size(min = 6, max = 18)
     private String senha;
 
-    //Metodo salvar usuário no cadastro
+    //Metodo para conversão
     public UserModel toUser()
     {
         UserModel userModel=new UserModel();

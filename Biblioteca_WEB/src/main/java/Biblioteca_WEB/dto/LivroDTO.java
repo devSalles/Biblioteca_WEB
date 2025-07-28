@@ -38,7 +38,6 @@ public class LivroDTO {
     @NotBlank @NotNull
     private String categoria;
 
-    @NotNull(message = "id de bibliotecario não pode ser nulo")
     private Long bibliotecario_id;
 
     // ---Metodos abaixo de conversão---

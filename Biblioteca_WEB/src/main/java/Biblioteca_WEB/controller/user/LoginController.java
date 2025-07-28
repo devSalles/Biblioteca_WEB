@@ -27,6 +27,7 @@ public class LoginController {
     public ModelAndView loginCampos(@RequestParam String email, @RequestParam String senha)
     {
         UserModel userModel=this.userRepository.findByEmail(email);
+        //Verificação de email e senha
         if(userModel!=null &&  userModel.getEmail().equals(email) && userModel.getSenha().equals(senha))
         {
             return new ModelAndView("redirect:/home/index");

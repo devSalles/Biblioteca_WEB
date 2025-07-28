@@ -23,6 +23,7 @@ public class GetAllController {
         this.livroRepository=livroRepository;
     }
 
+    //Exibição de Home principal tanto de bibliotecario quanto de livro
     @GetMapping("/index")
     public ModelAndView index()
     {

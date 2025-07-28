@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface UserRepository extends JpaRepository<UserModel,Long> {
-    //metodos para cadastrar o email e senha do usuário ao realizar o cadastro
+    //metodos para encontrar email e senha
     UserModel findByEmail(String email);
     UserModel findBySenha(String senha);
 }
