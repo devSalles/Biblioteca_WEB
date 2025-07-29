@@ -28,7 +28,8 @@
                 <div class="mb-3">
                     <label for="senha" class="form-label">Senha</label>
                     <input type="password" name="senha" id="senha" class="form-control"
-                           placeholder="Digite sua senha" required>
+                           placeholder="Digite sua senha" required minlength="6" maxlength="18">
+                    <div class="form-text" id="senha-counter">0 / 18 caracteres</div>
                 </div>
 
                 <!-- Botão Entrar -->
@@ -44,6 +45,23 @@
         </div>
     </div>
 </div>
+
+<script>
+    const senhaInput = document.getElementById('senha');
+    const counter = document.getElementById('senha-counter');
+
+    senhaInput.addEventListener('input', () => {
+        const length = senhaInput.value.length;
+        counter.textContent = `${length} / 18 caracteres`;
+
+        // Destaca em vermelho se estiver fora do limite
+        if (length < 6 || length > 18) {
+            counter.classList.add('text-danger');
+        } else {
+            counter.classList.remove('text-danger');
+        }
+    });
+</script>
 
 </body>
 </html>

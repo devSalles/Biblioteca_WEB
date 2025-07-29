@@ -1,9 +1,7 @@
 package Biblioteca_WEB.controller.user;
 
-import Biblioteca_WEB.dto.UserDTO;
 import Biblioteca_WEB.model.UserModel;
 import Biblioteca_WEB.repository.UserRepository;
-import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;

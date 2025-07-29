@@ -1,7 +1,6 @@
 package Biblioteca_WEB.controller.livro;
 
 import Biblioteca_WEB.Enum.StatusLivro;
-import Biblioteca_WEB.core.exception.IsbnJaCadastrado;
 import Biblioteca_WEB.dto.LivroDTO;
 import Biblioteca_WEB.model.BibliotecarioModel;
 import Biblioteca_WEB.model.LivroModel;
