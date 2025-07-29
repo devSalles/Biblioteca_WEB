@@ -8,7 +8,6 @@ import Biblioteca_WEB.core.exception.IsbnJaCadastrado;
 import Biblioteca_WEB.dto.BibliotecarioDTO;
 import Biblioteca_WEB.dto.LivroDTO;
 import Biblioteca_WEB.repository.BibliotecarioRepository;
-import Biblioteca_WEB.repository.LivroRepository;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ModelAttribute;

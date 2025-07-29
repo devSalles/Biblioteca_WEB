@@ -11,6 +11,6 @@ public interface LivroRepository extends JpaRepository<LivroModel,Long> {
 
     //Busca o ID dos bibliotecários
     List<LivroModel> findByBibliotecarioModelId(Long id);
-
+    //Metodo para verificar existência de ISBN
     boolean existsByIsbn(String isbn);
 }

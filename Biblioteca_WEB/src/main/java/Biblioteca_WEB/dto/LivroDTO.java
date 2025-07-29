@@ -57,7 +57,7 @@ public class LivroDTO {
         return livroModel;
     }
 
-    //Metodo para achar livro
+    //Metodo para exibir livro
     public void fromLivro(LivroModel livroModel)
     {
         this.titulo=livroModel.getTitulo();

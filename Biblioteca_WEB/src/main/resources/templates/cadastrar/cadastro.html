@@ -38,6 +38,7 @@
                     <label for="senha" class="form-label">Senha</label>
                     <input type="password" id="senha" th:field="*{senha}" class="form-control"
                            placeholder="6 a 18 caracteres" required minlength="6" maxlength="18">
+                    <div class="form-text" id="senha-counter">0 / 18 caracteres</div>
                     <div class="text-danger" th:if="${#fields.hasErrors('senha')}" th:errors="*{senha}"></div>
                 </div>
 
@@ -53,5 +54,22 @@
         </div>
     </div>
 </div>
+
+<script>
+    const senhaInput = document.getElementById('senha');
+    const counter = document.getElementById('senha-counter');
+
+    senhaInput.addEventListener('input', () => {
+        const length = senhaInput.value.length;
+        counter.textContent = `${length} / 18 caracteres`;
+
+        // Muda a cor do contador se estiver fora do limite
+        if (length < 6 || length > 18) {
+            counter.classList.add('text-danger');
+        } else {
+            counter.classList.remove('text-danger');
+        }
+    });
+</script>
 </body>
 </html>

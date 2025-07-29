@@ -50,7 +50,7 @@ public class BibliotecarioDTO {
         return bibliotecarioModel;
     }
 
-    //Metodo para achar funcionario
+    //Metodo para exibir funcionario
     public void fromBibliotecario(BibliotecarioModel bibliotecarioModel)
     {
         this.nome=bibliotecarioModel.getNome();

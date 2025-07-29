@@ -7,5 +7,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface BibliotecarioRepository extends JpaRepository<BibliotecarioModel,Long> {
 
+    //Metodo para verificar existência de email
     boolean existsByEmail(String email);
 }
