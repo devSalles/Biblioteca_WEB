@@ -1,12 +1,14 @@
 package Biblioteca_WEB.controller.livro;
 
 import Biblioteca_WEB.Enum.StatusLivro;
+import Biblioteca_WEB.core.exception.IsbnJaCadastrado;
 import Biblioteca_WEB.dto.LivroDTO;
 import Biblioteca_WEB.model.BibliotecarioModel;
 import Biblioteca_WEB.model.LivroModel;
 import Biblioteca_WEB.repository.BibliotecarioRepository;
 import Biblioteca_WEB.repository.LivroRepository;
 import jakarta.validation.Valid;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,29 +39,48 @@ public class AddNewLivro {
         mv.addObject("biblios_id",this.bibliotecarioRepository.findAll());
         return mv;
     }
+
     @PostMapping("/adicionar")
     public ModelAndView templateLivro(@Valid LivroDTO livroDTO, BindingResult bindingResult)
     {
-        //bindingResult para garantir a validação dos dados
+        ModelAndView mv = new ModelAndView("livro/new");
+        mv.addObject("livroDTO", livroDTO); // Mantém dados preenchidos
+        mv.addObject("statusLivro", StatusLivro.values());
+        mv.addObject("biblios_id", this.bibliotecarioRepository.findAll());
+
+        // Se houver erros de validação, exibe o formulário com erros
         if(bindingResult.hasErrors())
         {
-            return new ModelAndView("redirect:/livro/adicionar");
+            return mv;
         }
 
-        LivroModel livroSave=livroDTO.toLivro();
+        try {
+            if(livroRepository.existsByIsbn(livroDTO.getIsbn()))
+            {
+                // Coloca mensagem de erro diretamente no ModelAndView
+                mv.addObject("errorMessage", "ISBN já cadastrado: " + livroDTO.getIsbn());
+                return mv;
+            }
 
-        //Procura de ID de bibliotecário para salvar e vincular ao livro
-        Optional<BibliotecarioModel>bibliotecarioID=this.bibliotecarioRepository.findById(livroDTO.getBibliotecario_id());
+            LivroModel livroSave = livroDTO.toLivro();
 
-        if(bibliotecarioID.isEmpty())
+            Optional<BibliotecarioModel> bibliotecarioID = this.bibliotecarioRepository.findById(livroDTO.getBibliotecario_id());
+
+            if (bibliotecarioID.isEmpty()) {
+                return new ModelAndView("redirect:/home/bibliotecario404");
+            }
+
+            livroSave.setBibliotecarioModel(bibliotecarioID.get());
+            this.livroRepository.save(livroSave);
+
+            return new ModelAndView("redirect:/home/index");
+        }
+        catch (DataIntegrityViolationException ex)
         {
-            return new ModelAndView("redirect:/home/bibliotecario404");
+            // Se der problema de violação de chave única, coloca mensagem de erro na tela
+            mv.addObject("errorMessage", "Erro: ISBN já cadastrado no sistema!");
+            return mv;
         }
-
-        //salva livro com o ID do bibliotecário vinculado
-        livroSave.setBibliotecarioModel(bibliotecarioID.get());
-        this.livroRepository.save(livroSave);
-
-        return new ModelAndView("redirect:/home/index");
     }
+
 }

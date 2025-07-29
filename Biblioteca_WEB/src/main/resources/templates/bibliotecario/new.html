@@ -4,16 +4,26 @@
     <meta charset="UTF-8">
     <title>Cadastrar Bibliotecário</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Adicionar ícones do Bootstrap -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
     <style>
         .error-highlight {
             border-color: #dc3545 !important;
+            box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25);
         }
+
         .error-message {
             color: #dc3545;
             font-size: 0.875em;
             margin-top: 0.25rem;
+        }
+
+        .required-label::after {
+            content: " *";
+            color: #dc3545;
+        }
+
+        .alert-box {
+            transition: all 0.3s ease;
         }
     </style>
 </head>
@@ -22,18 +32,20 @@
 <div class="container">
     <h2 class="text-center mb-4">Cadastro de Bibliotecário</h2>
 
-    <!-- Bloco para exibir mensagem de erro -->
-    <div th:if="${errorMessage}" class="alert alert-danger alert-dismissible fade show" role="alert">
-        <i class="bi bi-exclamation-circle me-2"></i>
-        <span th:text="${errorMessage}">Erro ao cadastrar bibliotecário.</span>
+    <!-- Alerta de erro geral -->
+    <div th:if="${errorMessage}" class="alert alert-danger alert-box alert-dismissible fade show" role="alert">
+        <div class="d-flex align-items-center">
+            <i class="bi bi-exclamation-circle me-2"></i>
+            <span th:text="${errorMessage}">Erro ao cadastrar bibliotecário.</span>
+        </div>
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 
-    <!-- Formulário de cadastro -->
+    <!-- Formulário -->
     <form th:action="@{/bibliotecario/adicionar}" th:object="${bibliotecarioDTO}" method="post" class="border p-4 bg-white rounded shadow-sm">
 
         <div class="mb-3">
-            <label for="nome" class="form-label">Nome:</label>
+            <label for="nome" class="form-label required-label">Nome:</label>
             <input type="text" id="nome" class="form-control"
                    th:classappend="${#fields.hasErrors('nome')} ? 'error-highlight'"
                    th:field="*{nome}" required>
@@ -41,7 +53,7 @@
         </div>
 
         <div class="mb-3">
-            <label for="email" class="form-label">Email:</label>
+            <label for="email" class="form-label required-label">Email:</label>
             <input type="email" id="email" class="form-control"
                    th:classappend="${#fields.hasErrors('email') or errorMessage != null} ? 'error-highlight'"
                    th:field="*{email}" required>
@@ -49,7 +61,7 @@
         </div>
 
         <div class="mb-3">
-            <label for="cargo" class="form-label">Cargo:</label>
+            <label for="cargo" class="form-label required-label">Cargo:</label>
             <input type="text" id="cargo" class="form-control"
                    th:classappend="${#fields.hasErrors('cargo')} ? 'error-highlight'"
                    th:field="*{cargo}" required>
@@ -57,7 +69,7 @@
         </div>
 
         <div class="mb-3">
-            <label for="salario" class="form-label">Salário:</label>
+            <label for="salario" class="form-label required-label">Salário:</label>
             <input type="number" id="salario" class="form-control"
                    th:classappend="${#fields.hasErrors('salario')} ? 'error-highlight'"
                    th:field="*{salario}" step="0.01" min="0" required>
@@ -65,10 +77,11 @@
         </div>
 
         <div class="mb-3">
-            <label for="statusBibliotecario" class="form-label">Status:</label>
+            <label for="statusBibliotecario" class="form-label required-label">Status:</label>
             <select id="statusBibliotecario" class="form-select"
                     th:classappend="${#fields.hasErrors('statusBibliotecario')} ? 'error-highlight'"
                     th:field="*{statusBibliotecario}" required>
+                <option value="" disabled>Selecione o status</option>
                 <option th:each="status : ${statusBibliotecario}"
                         th:value="${status}"
                         th:text="${status}">ATIVO</option>
@@ -76,24 +89,25 @@
             <div class="error-message" th:if="${#fields.hasErrors('statusBibliotecario')}" th:errors="*{statusBibliotecario}"></div>
         </div>
 
-        <div class="d-flex justify-content-between">
-            <a href="/home/index" class="btn btn-secondary">Voltar</a>
-            <button type="submit" class="btn btn-success">Cadastrar</button>
+        <!-- Botões -->
+        <div class="d-flex justify-content-between mt-4 pt-3 border-top">
+            <a th:href="@{/home/index}" class="btn btn-secondary">
+                <i class="bi bi-arrow-left me-1"></i> Voltar
+            </a>
+            <button type="submit" class="btn btn-success">
+                <i class="bi bi-save me-1"></i> Cadastrar
+            </button>
         </div>
     </form>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-    // Manter o formulário aberto após erro
     document.addEventListener('DOMContentLoaded', function() {
         const errorMessage = document.querySelector('.alert-danger');
         if (errorMessage) {
-            // Rolagem suave para o topo do formulário
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
+            // Rolagem suave até o topo
+            window.scrollTo({ top: 0, behavior: 'smooth' });
 
             // Focar no campo de email se houver erro
             const emailField = document.getElementById('email');

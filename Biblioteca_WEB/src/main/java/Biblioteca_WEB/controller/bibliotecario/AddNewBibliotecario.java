@@ -2,7 +2,7 @@ package Biblioteca_WEB.controller.bibliotecario;
 
 import Biblioteca_WEB.Enum.StatusBibliotecario;
 import Biblioteca_WEB.dto.BibliotecarioDTO;
-import Biblioteca_WEB.exception.EmailJaCdastradoException;
+import Biblioteca_WEB.core.exception.EmailJaCdastradoException;
 import Biblioteca_WEB.model.BibliotecarioModel;
 import Biblioteca_WEB.repository.BibliotecarioRepository;
 import jakarta.validation.Valid;

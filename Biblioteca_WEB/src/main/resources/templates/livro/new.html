@@ -4,64 +4,168 @@
     <meta charset="UTF-8">
     <title>Cadastrar Livro</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <style>
+        .error-highlight {
+            border-color: #dc3545 !important;
+            box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25);
+        }
+        .error-message {
+            color: #dc3545;
+            font-size: 0.875em;
+            margin-top: 0.25rem;
+        }
+        .required-label::after {
+            content: " *";
+            color: #dc3545;
+        }
+        .alert-box {
+            transition: all 0.3s ease;
+        }
+    </style>
 </head>
 <body class="bg-light p-4">
 
 <div class="container">
     <h2 class="mb-4 text-center">Cadastrar Novo Livro</h2>
 
+    <!-- Alerta de erro geral -->
+    <div th:if="${errorMessage}" class="alert alert-danger alert-box">
+        <div class="d-flex align-items-center">
+            <i class="bi bi-exclamation-triangle-fill me-3 fs-4"></i>
+            <div>
+                <h5 class="mb-1">Erro no cadastro</h5>
+                <p class="mb-0" th:text="${errorMessage}">Mensagem de erro</p>
+            </div>
+        </div>
+    </div>
+
     <form th:action="@{/livro/adicionar}" th:object="${livroDTO}" method="post" class="border p-4 bg-white rounded shadow-sm">
 
+        <!-- Título -->
         <div class="mb-3">
-            <label for="titulo" class="form-label">Título:</label>
-            <input type="text" class="form-control" id="titulo" th:field="*{titulo}" required>
+            <label for="titulo" class="form-label required-label">Título:</label>
+            <div class="input-group">
+                <span class="input-group-text"><i class="bi bi-book"></i></span>
+                <input type="text" class="form-control" id="titulo"
+                       th:classappend="${#fields.hasErrors('titulo')} ? 'error-highlight' : ''"
+                       th:field="*{titulo}" required>
+            </div>
+            <div class="error-message" th:if="${#fields.hasErrors('titulo')}" th:errors="*{titulo}"></div>
         </div>
 
+        <!-- Autor -->
         <div class="mb-3">
-            <label for="autor" class="form-label">Autor:</label>
-            <input type="text" class="form-control" id="autor" th:field="*{autor}" required>
+            <label for="autor" class="form-label required-label">Autor:</label>
+            <div class="input-group">
+                <span class="input-group-text"><i class="bi bi-person"></i></span>
+                <input type="text" class="form-control" id="autor"
+                       th:classappend="${#fields.hasErrors('autor')} ? 'error-highlight' : ''"
+                       th:field="*{autor}" required>
+            </div>
+            <div class="error-message" th:if="${#fields.hasErrors('autor')}" th:errors="*{autor}"></div>
         </div>
 
+        <!-- ISBN -->
         <div class="mb-3">
-            <label for="isbn" class="form-label">ISBN:</label>
-            <input type="text" class="form-control" id="isbn" th:field="*{isbn}" required>
+            <label for="isbn" class="form-label required-label">ISBN:</label>
+            <div class="input-group">
+                <span class="input-group-text"><i class="bi bi-upc-scan"></i></span>
+                <input type="text" class="form-control" id="isbn"
+                       th:classappend="${#fields.hasErrors('isbn') or errorMessage != null} ? 'error-highlight' : ''"
+                       th:field="*{isbn}" required>
+            </div>
+            <div class="error-message" th:if="${#fields.hasErrors('isbn')}" th:errors="*{isbn}"></div>
+            <div th:if="${errorMessage}" class="error-message mt-1">
+                <i class="bi bi-info-circle me-1"></i> Verifique o ISBN informado
+            </div>
         </div>
 
+        <!-- Data de Publicação -->
         <div class="mb-3">
-            <label for="anoPublicacao" class="form-label">Data de Publicação:</label>
-            <input type="date" class="form-control" id="anoPublicacao"
-                   th:field="*{anoPublicacao}"
-                   th:attr="max=${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}" required>
+            <label for="anoPublicacao" class="form-label required-label">Data de Publicação:</label>
+            <div class="input-group">
+                <span class="input-group-text"><i class="bi bi-calendar"></i></span>
+                <input type="date" class="form-control" id="anoPublicacao"
+                       th:classappend="${#fields.hasErrors('anoPublicacao')} ? 'error-highlight' : ''"
+                       th:field="*{anoPublicacao}"
+                       th:attr="max=${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}" required>
+            </div>
+            <div class="error-message" th:if="${#fields.hasErrors('anoPublicacao')}" th:errors="*{anoPublicacao}"></div>
         </div>
 
+        <!-- Categoria -->
         <div class="mb-3">
-            <label for="categoria" class="form-label">Categoria:</label>
-            <input type="text" class="form-control" id="categoria" th:field="*{categoria}" required>
+            <label for="categoria" class="form-label required-label">Categoria:</label>
+            <div class="input-group">
+                <span class="input-group-text"><i class="bi bi-tag"></i></span>
+                <input type="text" class="form-control" id="categoria"
+                       th:classappend="${#fields.hasErrors('categoria')} ? 'error-highlight' : ''"
+                       th:field="*{categoria}" required>
+            </div>
+            <div class="error-message" th:if="${#fields.hasErrors('categoria')}" th:errors="*{categoria}"></div>
         </div>
 
+        <!-- Status do Livro -->
         <div class="mb-3">
-            <label for="statusLivro" class="form-label">Status do Livro:</label>
-            <select class="form-select" id="statusLivro" th:field="*{statusLivro}" required>
-                <option value="" disabled selected>Selecione o status</option>
-                <option th:each="status : ${statusLivro}" th:value="${status}" th:text="${status}">DISPONIVEL</option>
-            </select>
+            <label for="statusLivro" class="form-label required-label">Status do Livro:</label>
+            <div class="input-group">
+                <span class="input-group-text"><i class="bi bi-info-circle"></i></span>
+                <select class="form-select" id="statusLivro"
+                        th:classappend="${#fields.hasErrors('statusLivro')} ? 'error-highlight' : ''"
+                        th:field="*{statusLivro}" required>
+                    <option value="" disabled>Selecione o status</option>
+                    <option th:each="status : ${statusLivro}"
+                            th:value="${status}" th:text="${status}"
+                            th:selected="${livroDTO.statusLivro == status}"></option>
+                </select>
+            </div>
+            <div class="error-message" th:if="${#fields.hasErrors('statusLivro')}" th:errors="*{statusLivro}"></div>
         </div>
 
-        <div class="mb-3">
-            <label for="bibliotecario_id" class="form-label">Bibliotecário Responsável:</label>
-            <select class="form-select" id="bibliotecario_id" th:field="*{bibliotecario_id}" required>
-                <option value="" disabled selected>Selecione um bibliotecário</option>
-                <option th:each="b : ${biblios_id}" th:value="${b.id}" th:text="${b.nome}">Nome do Bibliotecário</option>
-            </select>
+        <!-- Bibliotecário Responsável -->
+        <div class="mb-4">
+            <label for="bibliotecario_id" class="form-label required-label">Bibliotecário Responsável:</label>
+            <div class="input-group">
+                <span class="input-group-text"><i class="bi bi-person-badge"></i></span>
+                <select class="form-select" id="bibliotecario_id"
+                        th:classappend="${#fields.hasErrors('bibliotecario_id')} ? 'error-highlight' : ''"
+                        th:field="*{bibliotecario_id}" required>
+                    <option value="" disabled>Selecione um bibliotecário</option>
+                    <option th:each="b : ${biblios_id}"
+                            th:value="${b.id}" th:text="${b.nome}"
+                            th:selected="${livroDTO.bibliotecario_id == b.id}"></option>
+                </select>
+            </div>
+            <div class="error-message" th:if="${#fields.hasErrors('bibliotecario_id')}" th:errors="*{bibliotecario_id}"></div>
         </div>
 
-        <div class="d-flex justify-content-between">
-            <a href="/home/index" class="btn btn-secondary">Voltar</a>
-            <button type="submit" class="btn btn-primary">Cadastrar Livro</button>
+        <!-- Botões -->
+        <div class="d-flex justify-content-between mt-4 pt-3 border-top">
+            <a th:href="@{/home/index}" class="btn btn-secondary">
+                <i class="bi bi-arrow-left me-1"></i> Voltar
+            </a>
+            <button type="submit" class="btn btn-primary">
+                <i class="bi bi-save me-1"></i> Cadastrar Livro
+            </button>
         </div>
     </form>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Foco automático no campo ISBN se houver erro geral
+        if (document.querySelector('.alert-danger')) {
+            const isbnField = document.getElementById('isbn');
+            if (isbnField) {
+                setTimeout(() => {
+                    isbnField.focus();
+                    isbnField.select();
+                }, 300);
+            }
+        }
+    });
+</script>
 </body>
 </html>
