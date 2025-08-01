@@ -92,7 +92,7 @@ public class UpdateByIdLivro {
                 //Seta o ID do bibliotecário
                 livroAtualizado.setBibliotecarioModel(bibliotecarioID.get());
                 this.livroRepository.save(livroAtualizado);
-                return new ModelAndView("redirect:/home/index");
+                return new ModelAndView("redirect:/home/index?tab=livro");
             }
         }
     }

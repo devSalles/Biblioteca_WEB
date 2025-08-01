@@ -72,7 +72,7 @@ public class AddNewLivro {
             livroSave.setBibliotecarioModel(bibliotecarioID.get());
             this.livroRepository.save(livroSave);
 
-            return new ModelAndView("redirect:/home/index");
+            return new ModelAndView("redirect:/home/index?tab=livro");
         }
         catch (DataIntegrityViolationException ex)
         {

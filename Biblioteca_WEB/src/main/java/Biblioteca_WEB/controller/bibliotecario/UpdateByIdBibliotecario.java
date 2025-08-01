@@ -75,7 +75,7 @@ public class UpdateByIdBibliotecario {
                 bibliotecarioDTO.updateBibliotecario(bibliotecarioSave);
                 this.bibliotecarioRepository.save(bibliotecarioSave);
 
-                return new ModelAndView("redirect:/home/index");
+                return new ModelAndView("redirect:/home/index?tab=bibliotecario");
             }
         }
     }

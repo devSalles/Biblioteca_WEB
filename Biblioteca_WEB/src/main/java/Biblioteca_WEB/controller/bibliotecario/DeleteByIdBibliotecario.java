@@ -49,7 +49,7 @@ public class DeleteByIdBibliotecario {
             this.livroRepository.saveAll(livroID);
 
             this.bibliotecarioRepository.delete(bibliotecarioOpt.get());
-            return new ModelAndView("redirect:/home/index");
+            return new ModelAndView("redirect:/home/index?tab=bibliotecario");
         }
     }
 }

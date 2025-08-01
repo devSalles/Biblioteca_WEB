@@ -33,7 +33,7 @@ public class DeleteByIdLivro {
         {
             LivroModel livroDel=livroID.get();
             this.livroRepository.delete(livroDel);
-            return new ModelAndView("redirect:/home/index");
+            return new ModelAndView("redirect:/home/index?tab=livro");
         }
     }
 }

@@ -57,7 +57,7 @@ public class AddNewBibliotecario {
             //Persiste no banco
             BibliotecarioModel bibliotecarioModel = bibliotecarioDTO.toBibliotecario();
             bibliotecarioRepository.save(bibliotecarioModel);
-            return new ModelAndView("redirect:/home/index");
+            return new ModelAndView("redirect:/home/index?tab=bibliotecario");
 
         }
         catch (EmailJaCdastradoException ex)
@@ -71,7 +71,7 @@ public class AddNewBibliotecario {
         }
         catch (DataIntegrityViolationException ex)
         {
-            // Captura violações de constraint do banco
+            //Captura violações de constraint do banco
             ModelAndView mv = new ModelAndView("bibliotecario/new");
             mv.addObject("statusBibliotecario", StatusBibliotecario.values());
             mv.addObject("errorMessage", "Email já cadastrado no sistema");
