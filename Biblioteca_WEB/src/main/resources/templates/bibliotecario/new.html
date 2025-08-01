@@ -10,18 +10,15 @@
             border-color: #dc3545 !important;
             box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25);
         }
-
         .error-message {
             color: #dc3545;
             font-size: 0.875em;
             margin-top: 0.25rem;
         }
-
         .required-label::after {
             content: " *";
             color: #dc3545;
         }
-
         .alert-box {
             transition: all 0.3s ease;
         }
@@ -44,48 +41,68 @@
     <!-- Formulário -->
     <form th:action="@{/bibliotecario/adicionar}" th:object="${bibliotecarioDTO}" method="post" class="border p-4 bg-white rounded shadow-sm">
 
+        <!-- Nome -->
         <div class="mb-3">
             <label for="nome" class="form-label required-label">Nome:</label>
-            <input type="text" id="nome" class="form-control"
-                   th:classappend="${#fields.hasErrors('nome')} ? 'error-highlight'"
-                   th:field="*{nome}" required>
+            <div class="input-group">
+                <span class="input-group-text"><i class="bi bi-person"></i></span>
+                <input type="text" id="nome" class="form-control"
+                       th:field="*{nome}"
+                       th:classappend="${#fields.hasErrors('nome')} ? 'error-highlight'" required>
+            </div>
             <div class="error-message" th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></div>
         </div>
 
+        <!-- Email -->
         <div class="mb-3">
             <label for="email" class="form-label required-label">Email:</label>
-            <input type="email" id="email" class="form-control"
-                   th:classappend="${#fields.hasErrors('email') or errorMessage != null} ? 'error-highlight'"
-                   th:field="*{email}" required>
+            <div class="input-group">
+                <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+                <input type="email" id="email" class="form-control"
+                       th:field="*{email}"
+                       th:classappend="${#fields.hasErrors('email') or errorMessage != null} ? 'error-highlight'" required>
+            </div>
             <div class="error-message" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
         </div>
 
+        <!-- Cargo -->
         <div class="mb-3">
             <label for="cargo" class="form-label required-label">Cargo:</label>
-            <input type="text" id="cargo" class="form-control"
-                   th:classappend="${#fields.hasErrors('cargo')} ? 'error-highlight'"
-                   th:field="*{cargo}" required>
+            <div class="input-group">
+                <span class="input-group-text"><i class="bi bi-briefcase"></i></span>
+                <input type="text" id="cargo" class="form-control"
+                       th:field="*{cargo}"
+                       th:classappend="${#fields.hasErrors('cargo')} ? 'error-highlight'" required>
+            </div>
             <div class="error-message" th:if="${#fields.hasErrors('cargo')}" th:errors="*{cargo}"></div>
         </div>
 
+        <!-- Salário -->
         <div class="mb-3">
             <label for="salario" class="form-label required-label">Salário:</label>
-            <input type="number" id="salario" class="form-control"
-                   th:classappend="${#fields.hasErrors('salario')} ? 'error-highlight'"
-                   th:field="*{salario}" step="0.01" min="0" required>
+            <div class="input-group">
+                <span class="input-group-text"><i class="bi bi-cash-stack"></i></span>
+                <input type="number" id="salario" class="form-control"
+                       th:field="*{salario}"
+                       th:classappend="${#fields.hasErrors('salario')} ? 'error-highlight'"
+                       step="0.01" min="0" required>
+            </div>
             <div class="error-message" th:if="${#fields.hasErrors('salario')}" th:errors="*{salario}"></div>
         </div>
 
+        <!-- Status -->
         <div class="mb-3">
             <label for="statusBibliotecario" class="form-label required-label">Status:</label>
-            <select id="statusBibliotecario" class="form-select"
-                    th:classappend="${#fields.hasErrors('statusBibliotecario')} ? 'error-highlight'"
-                    th:field="*{statusBibliotecario}" required>
-                <option value="" disabled>Selecione o status</option>
-                <option th:each="status : ${statusBibliotecario}"
-                        th:value="${status}"
-                        th:text="${status}">ATIVO</option>
-            </select>
+            <div class="input-group">
+                <span class="input-group-text"><i class="bi bi-info-circle"></i></span>
+                <select id="statusBibliotecario" class="form-select"
+                        th:field="*{statusBibliotecario}"
+                        th:classappend="${#fields.hasErrors('statusBibliotecario')} ? 'error-highlight'" required>
+                    <option value="" disabled>Selecione o status</option>
+                    <option th:each="status : ${statusBibliotecario}"
+                            th:value="${status}" th:text="${status}">ATIVO</option>
+                </select>
+            </div>
             <div class="error-message" th:if="${#fields.hasErrors('statusBibliotecario')}" th:errors="*{statusBibliotecario}"></div>
         </div>
 
@@ -106,10 +123,7 @@
     document.addEventListener('DOMContentLoaded', function() {
         const errorMessage = document.querySelector('.alert-danger');
         if (errorMessage) {
-            // Rolagem suave até o topo
             window.scrollTo({ top: 0, behavior: 'smooth' });
-
-            // Focar no campo de email se houver erro
             const emailField = document.getElementById('email');
             if (emailField) {
                 setTimeout(() => {

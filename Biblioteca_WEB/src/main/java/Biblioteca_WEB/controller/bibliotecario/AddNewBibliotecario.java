@@ -42,6 +42,7 @@ public class AddNewBibliotecario {
         {
             ModelAndView mv = new ModelAndView("bibliotecario/new");
             mv.addObject("statusBibliotecario", StatusBibliotecario.values());
+            mv.addObject("bibliotecarioDTO", bibliotecarioDTO);
             return mv;
         }
 
@@ -53,16 +54,29 @@ public class AddNewBibliotecario {
                 throw new EmailJaCdastradoException("Email já cadastrado: " + bibliotecarioDTO.getEmail());
             }
 
-            // Persiste no banco
+            //Persiste no banco
             BibliotecarioModel bibliotecarioModel = bibliotecarioDTO.toBibliotecario();
             bibliotecarioRepository.save(bibliotecarioModel);
             return new ModelAndView("redirect:/home/index");
 
         }
+        catch (EmailJaCdastradoException ex)
+        {
+            //Retorna o formulário com mensagem de erro e dados preenchidos
+            ModelAndView mv = new ModelAndView("bibliotecario/new");
+            mv.addObject("statusBibliotecario", StatusBibliotecario.values());
+            mv.addObject("errorMessage", ex.getMessage());
+            mv.addObject("bibliotecarioDTO", bibliotecarioDTO); // garante os dados preenchidos
+            return mv;
+        }
         catch (DataIntegrityViolationException ex)
         {
-            //Captura violações de constraint do banco
-            throw new EmailJaCdastradoException("Email já cadastrado no sistema");
+            // Captura violações de constraint do banco
+            ModelAndView mv = new ModelAndView("bibliotecario/new");
+            mv.addObject("statusBibliotecario", StatusBibliotecario.values());
+            mv.addObject("errorMessage", "Email já cadastrado no sistema");
+            mv.addObject("bibliotecarioDTO", bibliotecarioDTO);
+            return mv;
         }
     }
 }
