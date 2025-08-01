@@ -26,7 +26,7 @@ public class CadastroController {
     public ModelAndView cadastroTemplate()
     {
         ModelAndView mv = new ModelAndView("cadastrar/cadastro");
-        mv.addObject("userDTO",new UserModel());
+        mv.addObject("userDTO",new UserDTO());
         return mv;
     }
 
